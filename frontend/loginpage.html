@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expense Tracker</title>
+  <style>
+    /* Body and Background */
+    body,
+    html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      flex-direction: column;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "Roboto", sans-serif;
+      background: linear-gradient(359deg, rgba(44, 16, 60, 1), #121753);
+      color: #fff;
+    }
+
+    /* Reset some basic styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Container for form */
+    .auth-container {
+      width: 130%;
+      max-width: 420px;
+      /* Increased the width */
+      padding: 40px 50px;
+      /* Adjusted padding */
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
+      text-align: center;
+      backdrop-filter: blur(10px);
+      border: 2px solid #ff33cc;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #ff33cc;
+      text-shadow: 0 0 10px #ff33cc, 0 0 20px #ff33cc;
+    }
+
+    /* Input fields */
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #ccc;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 2px solid #ff33cc;
+      border-radius: 8px;
+      box-sizing: border-box;
+      background: transparent;
+      color: #fff;
+      transition: border-color 0.3s ease;
+    }
+
+    .input-group input:focus {
+      border-color: #00ff99;
+      outline: none;
+    }
+
+    /* Buttons */
+    button {
+      width: 100%;
+      padding: 15px;
+      font-size: 18px;
+      background-color: #ff33cc;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px rgba(255, 0, 255, 0.6);
+    }
+
+    button:hover {
+      background-color: #00ff99;
+      box-shadow: 0 0 20px rgba(0, 255, 153, 0.8);
+      transform: scale(1.05);
+    }
+
+    /* Footer links */
+    .footer {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #ddd;
+    }
+
+    .footer .toggle-button {
+      cursor: pointer;
+      color: #ff33cc;
+      transition: color 0.3s ease;
+    }
+
+    .footer .toggle-button:hover {
+      color: #00ff99;
+    }
+
+    .auth-container form {
+      display: block;
+    }
+
+    /* Media Query for responsiveness */
+    @media (max-width: 600px) {
+      .auth-container {
+        padding: 30px;
+        max-width: 90%;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="auth-container">
+    <h1 id="auth-heading">Sign In</h1>
+
+    <!-- Sign In Form -->
+    <form id="signin-form" action="/signin" method="POST">
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="signin-username" name="username" placeholder="Enter your username" required />
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="signin-password" name="password" placeholder="Enter your password" required />
+      </div>
+      <button type="submit">Sign In</button>
+    </form>
+
+    <!-- Sign Up Form -->
+    <form id="signup-form" action="/register" method="POST" style="display: none">
+      <div class="input-group">
+        <label for="fullname">Full Name</label>
+        <input type="text" id="signup-fullname" name="fullname" placeholder="Enter your full name" required />
+      </div>
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input type="email" id="signup-email" name="email" placeholder="Enter your email" required />
+      </div>
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="signup-username" name="username" placeholder="Create a username" required />
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="signup-password" name="password" placeholder="Create a password" required />
+      </div>
+      <button type="submit">Sign Up</button>
+    </form>
+
+    <!-- Toggle between Sign In and Sign Up -->
+    <div class="footer">
+      <span id="toggle-to-signup" class="toggle-button">
+        Don't have an account? Sign Up
+      </span>
+      <span id="toggle-to-signin" class="toggle-button" style="display: none">
+        Already have an account? Sign In
+      </span>
+    </div>
+  </div>
+
+  <script>
+    // Toggle between Sign In and Sign Up forms
+    const signinForm = document.getElementById("signin-form");
+    const signupForm = document.getElementById("signup-form");
+    const toggleToSignup = document.getElementById("toggle-to-signup");
+    const toggleToSignin = document.getElementById("toggle-to-signin");
+    const authHeading = document.getElementById("auth-heading");
+
+    toggleToSignup.addEventListener("click", () => {
+      signinForm.style.display = "none";
+      signupForm.style.display = "block";
+      toggleToSignup.style.display = "none";
+      toggleToSignin.style.display = "inline";
+      authHeading.textContent = "Sign Up";
+    });
+
+    toggleToSignin.addEventListener("click", () => {
+      signinForm.style.display = "block";
+      signupForm.style.display = "none";
+      toggleToSignup.style.display = "inline";
+      toggleToSignin.style.display = "none";
+      authHeading.textContent = "Sign In";
+    });
+
+
+    // Handle form submission for sign-in
+    document
+      .getElementById("signin-form")
+      .addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Simulate authentication (replace with actual validation logic)
+        const username = document.getElementById("signin-username").value;
+        const password = document.getElementById("signin-password").value;
+
+        fetch('http://localhost:8000/api/v1/users/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, password }),
+          credentials: 'include' // or 'same-origin' for same-origin requests  
+        })
+          .then(response => {
+            console.log(response)
+            if (!response.ok) {
+              alert("Invalid credentials! Please try again.");
+            }
+
+            return response.json();
+          })
+          .then(data => {
+            console.log(data);
+            console.log(data.data.accessToken)
+            localStorage.setItem('accessToken', data.data.accessToken)
+            localStorage.setItem("isLoggedIn", "true"); // Store login status
+            alert("Login successful!");
+            window.location.href = "dashboard.html"; // Redirect to dashboard page
+          })
+          .catch(error => {
+            alert('There was a problem with your fetch operation:', error);
+          });
+      });
+
+
+
+    // Handle form submission for sign-up/register
+    document
+      .getElementById("signup-form")
+      .addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Simulate authentication (replace with actual validation logic)
+        const username = document.getElementById("signup-username").value;
+        const password = document.getElementById("signup-password").value;
+        const fullname = document.getElementById("signup-fullname").value;
+        const email = document.getElementById("signup-email").value;
+
+        fetch('http://localhost:8000/api/v1/users/register', {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, password, fullname, email }),
+          credentials: 'include' // or 'same-origin' for same-origin requests  
+        })
+          .then(response => {
+            console.log(response)
+            if (!response.ok) {
+              return alert("Failed to register, please check your details");
+            }
+
+            return response.json();
+          })
+          .then(data => {
+            console.log(data);
+            alert("registration successful!");
+            window.location.href = "loginpage.html"; // Redirect to dashboard page
+          })
+          .catch(error => {
+            alert('There was a problem with your fetch operation:', error);
+          });
+      });
+  </script>
+</body>
+
+</html>

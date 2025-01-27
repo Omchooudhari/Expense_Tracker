@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense Tracker</title>
+    <!-- <link rel="stylesheet" href="style.css" /> -->
+    <link rel="stylesheet" href="managestyle.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body>
+    <div class="navbar">
+      <div class="logo">Expense Tracker</div>
+      <div class="nav-links">
+        <a href="#dashboard"><button onclick="showSection('dashboard')">Dashboard</button></a>
+        <a href="#manage-expense"><button onclick="showManageExpense()">Manage Expenses</button></a>
+        <a href="#view-expense"><button onclick="showViewExpenses()">View Expenses</button></a>
+        <a href="#logout" class="pagelogout"><button onclick="handleLogoutClick()">Logout</button></a>
+      </div>
+    </div>
+
+    <div class="dashboard">
+      <div class="card">
+        <h2>Total Budget:</h2>
+        <p>
+          <span class="rupee">&#8377;</span>
+          <span
+            id="totalBudget"
+            style="font-size: 30px; font-weight: bold; color: #00ff08"
+            >0</span
+          >
+        </p>
+        <button id="editBudgetBtn" class="edit-budget-btn" onclick="editBudget()">Edit Budget</button>
+      </div>
+
+      <div class="card">
+        <h2>Total Expense:</h2>
+        <p><span class="rupee">₹</span><span id="totalExpense">0</span></p>
+      </div>
+      <div class="card">
+        <h2>Cash in Hand:</h2>
+        <p>
+          <span class="rupee">&#8377;</span>
+          <span
+            id="cashInHand"
+            style="font-size: 30px; font-weight: bold; color: #00ff08"
+            >0</span
+          >
+        </p>
+      </div>
+      <div class="card">
+        <h2>Total Transactions:</h2>
+        <p><span id="totalTransactions">0</span></p>
+      </div>
+    </div>
+
+    <div class="charts">
+      <div class="chart-container">
+        <h3>Expense Distribution</h3>
+        <canvas id="pieChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Weekly Spending Analysis</h3>
+        <canvas id="barChart"></canvas>
+      </div>
+    </div>
+
+    <div class="content">
+      <!-- Manage Expense section -->
+      <div class="manage-expense-content" id="manageExpenseSection">
+        <h1 class="manageexpense">Manage Your Expenses</h1>
+        <form id="expenseForm">
+          <div class="form-group">
+            <label for="amount">Amount (₹):</label>
+            <input type="number" id="amount" required />
+          </div>
+          <div class="form-group">
+            <label for="category">Category:</label>
+            <select id="category" required>
+              <option value="food">Food</option>
+              <option value="travel">Travel</option>
+              <option value="shopping">Shopping</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="date">Date:</label>
+            <input type="date" id="date" required />
+          </div>
+          <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea
+              id="description"
+              rows="3"
+              placeholder="Enter details about your expense"
+            ></textarea>
+          </div>
+          <button type="submit">Add Expense</button>
+        </form>
+      </div>
+
+      <!-- View Expenses section -->
+      <div class="view-expenses-content" id="viewExpenseSection">
+        <h1 class="viewexpense">View Your Expenses</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Category</th>
+              <th>Date</th>
+              <th>Amount</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="expenseTableBody">
+            <!-- Expense rows will be dynamically inserted here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Feedback Form -->
+    <div class="feedback-form">
+      <h3>We Value Your Feedback</h3>
+      <form id="feedbackForm" onsubmit="handleSubmit(event)">
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Your Name"
+          required
+        />
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Your Email"
+          required
+        />
+        <textarea
+          id="feedback"
+          name="feedback"
+          rows="4"
+          placeholder="Your Feedback"
+          required
+        ></textarea>
+        <button type="submit">Submit Feedback</button>
+      </form>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
